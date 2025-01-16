@@ -11,6 +11,9 @@ public class Main {
             case "1":
                 System.out.println(Arrays.toString(twoSum(sc)));
                 break;
+            case "9":
+                System.out.println(isPalindrome(sc));
+                break;
             default:
                 System.out.println("TBC");
         }
@@ -19,8 +22,8 @@ public class Main {
     private static int[] twoSum(Scanner sc) {
         System.out.print("Enter the size of the array: ");
         int size = sc.nextInt();
-
         int[] nums = new int[size];
+
         System.out.println("Enter the elements of the array:");
         for (int i = 0; i < size; i++) {
             nums[i] = sc.nextInt();
@@ -39,5 +42,20 @@ public class Main {
             map.put(nums[i], i);
         }
         return new int[] {};
+    }
+
+    public static boolean isPalindrome(Scanner sc) {
+        System.out.print("Enter integer: ");
+        int x = sc.nextInt();
+
+        // logic
+        String str = Integer.toString(x);
+        int n = str.length();
+        for (int i=0;i<n/2;i++) {
+            if (str.charAt(i) != str.charAt(n-i-1)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
