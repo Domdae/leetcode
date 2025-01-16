@@ -14,6 +14,9 @@ public class Main {
             case "9":
                 System.out.println(isPalindrome(sc));
                 break;
+            case "13":
+                System.out.println(romanToInt(sc));
+                break;
             default:
                 System.out.println("TBC");
         }
@@ -57,5 +60,38 @@ public class Main {
             }
         }
         return true;
+    }
+
+    public static int romanToInt(Scanner sc) {
+        System.out.print("Enter roman string: ");
+        String s = sc.nextLine();
+
+        // logic
+        int result = 0;
+        int n1 = roman(s.charAt(0));
+        for (int i=1;i<s.length();i++) {
+            int n2 = roman(s.charAt(i));
+            if (n1 < n2) {
+                result -= n1;
+            } else {
+                result += n1;
+            }
+            n1 = n2;
+        }
+        result += n1;
+        return result;
+    }
+
+    public static int roman(char r){
+        return switch (r) {
+            case 'I' -> 1;
+            case 'V' -> 5;
+            case 'X' -> 10;
+            case 'L' -> 50;
+            case 'C' -> 100;
+            case 'D' -> 500;
+            case 'M' -> 1000;
+            default -> 0;
+        };
     }
 }
