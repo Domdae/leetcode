@@ -17,6 +17,9 @@ public class Main {
             case "13":
                 System.out.println(romanToInt(sc));
                 break;
+            case "14":
+                System.out.println(longestCommonPrefix(sc));
+                break;
             default:
                 System.out.println("TBC");
         }
@@ -93,5 +96,33 @@ public class Main {
             case 'M' -> 1000;
             default -> 0;
         };
+    }
+
+    public static String longestCommonPrefix(Scanner sc) {
+        System.out.print("Enter the number of strings: ");
+        int size = sc.nextInt();
+        sc.nextLine();
+
+        String[] strs = new String[size];
+
+        System.out.println("Enter the strings:");
+        for (int i = 0; i < size; i++) {
+            System.out.print("String " + (i + 1) + ": ");
+            strs[i] = sc.nextLine();
+        }
+
+        // logic
+        Arrays.sort(strs);
+        String s1 = strs[0];
+        String s2 = strs[strs.length - 1];
+        int n = 0;
+        while (n < s1.length() && n < s2.length()) {
+            if(s1.charAt(n) == s2.charAt(n)){
+                n++;
+            } else {
+                break;
+            }
+        }
+        return s1.substring(0, n);
     }
 }
