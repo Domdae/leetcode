@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,6 +20,9 @@ public class Main {
                 break;
             case "14":
                 System.out.println(longestCommonPrefix(sc));
+                break;
+            case "20":
+                System.out.println(isValid(sc));
                 break;
             default:
                 System.out.println("TBC");
@@ -43,11 +47,11 @@ public class Main {
         for (int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
             if (map.containsKey(complement)) {
-                return new int[] { map.get(complement), i };
+                return new int[]{map.get(complement), i};
             }
             map.put(nums[i], i);
         }
-        return new int[] {};
+        return new int[]{};
     }
 
     public static boolean isPalindrome(Scanner sc) {
@@ -57,8 +61,8 @@ public class Main {
         // logic
         String str = Integer.toString(x);
         int n = str.length();
-        for (int i=0;i<n/2;i++) {
-            if (str.charAt(i) != str.charAt(n-i-1)) {
+        for (int i = 0; i < n / 2; i++) {
+            if (str.charAt(i) != str.charAt(n - i - 1)) {
                 return false;
             }
         }
@@ -72,7 +76,7 @@ public class Main {
         // logic
         int result = 0;
         int n1 = roman(s.charAt(0));
-        for (int i=1;i<s.length();i++) {
+        for (int i = 1; i < s.length(); i++) {
             int n2 = roman(s.charAt(i));
             if (n1 < n2) {
                 result -= n1;
@@ -85,7 +89,7 @@ public class Main {
         return result;
     }
 
-    public static int roman(char r){
+    public static int roman(char r) {
         return switch (r) {
             case 'I' -> 1;
             case 'V' -> 5;
@@ -117,7 +121,7 @@ public class Main {
         String s2 = strs[strs.length - 1];
         int n = 0;
         while (n < s1.length() && n < s2.length()) {
-            if(s1.charAt(n) == s2.charAt(n)){
+            if (s1.charAt(n) == s2.charAt(n)) {
                 n++;
             } else {
                 break;
@@ -125,4 +129,39 @@ public class Main {
         }
         return s1.substring(0, n);
     }
+
+    private static final Map<Character, Character> mapParentheses = Map.of(
+            '(', ')',
+            '[', ']',
+            '{', '}'
+    );
+
+    public static boolean isValid(Scanner sc) {
+        System.out.print("Enter the strings: ");
+        String s = sc.nextLine();
+
+        //logic
+        char[] sArray = new char[s.length()];
+
+        for (int i = 0; i < sArray.length; i++) {
+            sArray[i] = s.charAt(i);
+        }
+
+        Stack<Character> stack = new Stack<>();
+        for (char c : sArray) {
+            if (mapParentheses.containsKey(c)) {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char popOpenParenthesis = stack.pop();
+                if (mapParentheses.get(popOpenParenthesis) != c) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
 }
