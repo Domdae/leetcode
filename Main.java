@@ -1,10 +1,18 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -24,6 +32,11 @@ public class Main {
             case "20":
                 System.out.println(isValid(sc));
                 break;
+            case "217":
+                System.out.println(containsDuplicate(sc));
+                break;
+            case "2309":
+                System.out.println(greatestLetterCorrectVersion(sc));
             default:
                 System.out.println("TBC");
         }
@@ -131,9 +144,9 @@ public class Main {
     }
 
     private static final Map<Character, Character> mapParentheses = Map.of(
-            '(', ')',
-            '[', ']',
-            '{', '}'
+        '(', ')',
+        '[', ']',
+        '{', '}'
     );
 
     public static boolean isValid(Scanner sc) {
@@ -164,4 +177,82 @@ public class Main {
         return stack.isEmpty();
     }
 
+    public static boolean containsDuplicate(Scanner sc) {
+        System.out.print("Enter the size of the array: ");
+        int size = sc.nextInt();
+        int[] nums = new int[size];
+
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+        // logic
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                return true;
+            }
+            map.put(nums[i], i);
+        }
+        return false;
+    }
+
+    public static String greatestLetter(Scanner sc) {
+        System.out.print("Enter the strings: "); // lEeTcOdE
+        String s = sc.nextLine();
+
+        // logic
+
+        char[] sArray = new char[s.length()];
+        String upperCaseStr = s.toUpperCase();
+        for (int i = 0; i < sArray.length; i++) {
+            sArray[i] = upperCaseStr.charAt(i);
+
+        }
+
+        Map<Character, Integer> map = new TreeMap<>(Collections.reverseOrder());
+
+        for (char c : sArray) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        Character greatestLetter = null;
+        int maxFrequency = 0;
+
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > 1 && entry.getValue() >= maxFrequency) {
+                greatestLetter = entry.getKey();
+                maxFrequency = entry.getValue();
+            }
+        }
+
+        // Return the result
+        return greatestLetter != null ? String.valueOf(greatestLetter) : "";
+    }
+
+    public static String greatestLetterCorrectVersion(Scanner sc) {
+        System.out.print("Enter the strings: "); // lEeTcOdE
+        String s = sc.nextLine();
+
+        // logic
+
+        char[] sArray = new char[s.length()];
+        for (int i = 0; i < sArray.length; i++) {
+            sArray[i] = s.charAt(i);
+        }
+
+        Set<Character> charSet = new HashSet<>();
+        for (char c : sArray) {
+            charSet.add(c);
+        }
+
+        for (char c = 'Z'; c >= 'A'; c--) {
+            if (charSet.contains(c) && charSet.contains(Character.toLowerCase(c))) {
+                return String.valueOf(c);
+            }
+        }
+
+        return "";
+    }
 }
